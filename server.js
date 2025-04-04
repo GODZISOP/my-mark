@@ -31,7 +31,7 @@ const sendEmail = async (to, subject, text) => {
     await transporter.sendMail({
       from: 'shabbirzain314@gmail.com',
       to,
-      subject,
+      subjec
       text
     });
     return true;
