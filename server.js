@@ -8,9 +8,12 @@ const PORT = process.env.PORT || 4001;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'https://mark-project.vercel.app', // Allow all origins (for testing only)
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type']
+
+    origin: '*',  // Allows all origins, but only for testing
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+  
+  
 }));
 
 // Nodemailer transporter setup
