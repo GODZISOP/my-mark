@@ -1,35 +1,39 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
 import cors from 'cors';
+import dotenv from 'dotenv';  // Import dotenv to load environment variables
+
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 4001;
+const PORT = process.env.PORT || 4001;  // Use environment variable PORT
 
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'https://mark-project.vercel.app/', // Allow all origins (for testing only)
+  origin: process.env.CORS_ORIGIN,  // Use environment variable for allowed CORS origin
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
 
-// Nodemailer transporter setup with hardcoded credentials
+// Nodemailer transporter setup with credentials from environment variables
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'shabbirzain314@gmail.com', // Hardcoded email
-    pass: 'eovk zlga qiul ttlx' // Hardcoded password (Avoid using in production)
+    user: process.env.EMAIL_USER,  // Use environment variable for email
+    pass: process.env.EMAIL_PASS,  // Use environment variable for app password
   },
   tls: {
     rejectUnauthorized: false
   }
 });
 
-// Email sending function (must be defined before routes that use it)
+// Email sending function
 const sendEmail = async (to, subject, text) => {
   try {
     await transporter.sendMail({
-      from: 'shabbirzain314@gmail.com',
+      from: process.env.EMAIL_USER,  // Use environment variable for email
       to,
       subject,
       text
@@ -63,7 +67,7 @@ app.post('/message', async (req, res) => {
 
     // Send email to recipient
     const recipientEmailSent = await sendEmail(
-      "appointmentstudio@gmail.com", // Hardcoded recipient email
+      "appointmentstudio@gmail.com", // Hardcoded recipient email (or replace with another env variable if needed)
       `New Contact from ${name}`,
       `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
     );
