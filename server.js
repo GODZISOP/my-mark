@@ -59,7 +59,7 @@ transporter.sendMail({
 app.get('/', (req, res) => {
   res.status(200).json({ 
     status: 'healthy',
-    message: 'Contact form backend service is running',
+    message: 'backend all set',
     timestamp: new Date().toISOString()
   });
 });
