@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 4001;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: '*', // Allow all origins (for testing only)
+  origin: 'https://mark-project.vercel.app', // Allow all origins (for testing only)
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
