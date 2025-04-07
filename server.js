@@ -49,7 +49,7 @@ const sendEmail = async (to, subject, text) => {
 app.get('/', (req, res) => {
   res.status(200).json({ 
     status: 'healthy',
-    message: 'Backend is running',
+    message: 'Backend is runningggg',
     timestamp: new Date().toISOString()
   });
 });
