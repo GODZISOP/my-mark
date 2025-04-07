@@ -1,7 +1,11 @@
-// /pages/api/message.js
 import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins (or specify your frontend domain)
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   if (req.method === 'POST') {
     const { name, email, message } = req.body;
 
@@ -9,30 +13,26 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, error: 'All fields are required' });
     }
 
-    // Nodemailer transporter setup using environment variables
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER,  // Gmail username
-        pass: process.env.EMAIL_PASS,  // Gmail app password
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS, 
       },
     });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,  // Sender's email
-      to: 'recipient-email@gmail.com',  // Recipient's email
+      from: process.env.EMAIL_USER,
+      to: 'recipient-email@gmail.com', 
       subject: `New Contact from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
 
     try {
-      // Send the email to the recipient
       await transporter.sendMail(mailOptions);
-
-      // Send confirmation email to the user
       await transporter.sendMail({
-        from: process.env.EMAIL_USER,  // Sender's email
-        to: email,  // User's email
+        from: process.env.EMAIL_USER,
+        to: email,
         subject: 'Your message has been received',
         text: `Thank you ${name}, we received your message.`,
       });
@@ -43,7 +43,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ success: false, error: 'Failed to send email' });
     }
   } else {
-    // If the request method is not POST, return a 405 Method Not Allowed
     res.status(405).json({ success: false, error: 'Method Not Allowed' });
   }
 }
