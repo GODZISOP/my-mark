@@ -8,23 +8,20 @@ const PORT = process.env.PORT || 4001;
 // Middleware
 app.use(express.json());
 app.use(cors({
-
-    origin: 'https://mark-project.vercel.app',  // Allows all origins, but only for testing
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type']
-  
-  
+  origin: 'https://mark-project.vercel.app/', // Allow all origins (for testing only)
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
 }));
 
-// Nodemailer transporter setup
+// Nodemailer transporter setup with hardcoded credentials
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'shabbirzain314@gmail.com', 
-    pass: 'eovk zlga qiul ttlx'
+    user: 'shabbirzain314@gmail.com', // Hardcoded email
+    pass: 'eovk zlga qiul ttlx' // Hardcoded password (Avoid using in production)
   },
   tls: {
-    rejectUnauthorized: false 
+    rejectUnauthorized: false
   }
 });
 
@@ -44,25 +41,11 @@ const sendEmail = async (to, subject, text) => {
   }
 };
 
-// Test email on server start
-transporter.sendMail({
-  from: 'shabbirzain314@gmail.com',
-  to: 'appointmentstudio@gmail.com',
-  subject: 'Test Email',
-  text: 'This is a test email from Nodemailer.'
-}, (error, info) => {
-  if (error) {
-    console.log('Error:', error);
-  } else {
-    console.log('Email sent:', info.response);
-  }
-});
-
 // Health check route
 app.get('/', (req, res) => {
   res.status(200).json({ 
     status: 'healthy',
-    message: 'backend all set',
+    message: 'Backend is running',
     timestamp: new Date().toISOString()
   });
 });
@@ -80,7 +63,7 @@ app.post('/message', async (req, res) => {
 
     // Send email to recipient
     const recipientEmailSent = await sendEmail(
-      "appointmentstudio@gmail.com",
+      "appointmentstudio@gmail.com", // Hardcoded recipient email
       `New Contact from ${name}`,
       `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
     );
