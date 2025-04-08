@@ -77,9 +77,8 @@ app.post('/message', async (req, res) => {
     const userConfirmationSent = await sendEmail(
       email,
       "Your message has been received",
-      `Thank you ${name}, we received your message.`
+      `Hello ${name},\n\nThank you for reaching out to Mark Relic. We have received your message and will get back to you shortly.\n\nMessage Details:\nName: ${name}\nEmail: ${email}\nMessage: ${message}\n\nBest regards,\nMark Relic Team`
     );
-
     // If emails failed to send, respond with error
     if (!recipientEmailSent || !userConfirmationSent) {
       console.log("❌ Email sending failed.");
