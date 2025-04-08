@@ -33,7 +33,7 @@ const transporter = nodemailer.createTransport({
 const sendEmail = async (to, subject, text) => {
   try {
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,  // Sender email
+      from: process.env.EMAIL_USER, 
       to,
       subject,
       text
