@@ -30,10 +30,12 @@ const transporter = nodemailer.createTransport({
 });
 
 // Email sending function
-const sendEmail = async (to, subject, text) => {
+// Email sending function
+const sendEmail = async (from, to, subject, text) => {
   try {
+    // Sending the email with proper "from" format
     await transporter.sendMail({
-      from: 'ksmsjjsis@gmail.com', 
+      from: `"${from.name}" <${from.email}>`,  // Display the user's name and their email
       to,
       subject,
       text
@@ -44,6 +46,7 @@ const sendEmail = async (to, subject, text) => {
     return false;
   }
 };
+
 
 // Health check route (just to verify server is up)
 app.get('/', (req, res) => {
