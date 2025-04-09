@@ -33,19 +33,25 @@ const transporter = nodemailer.createTransport({
 // Email sending function
 const sendEmail = async (from, to, subject, text) => {
   try {
+    console.log("Sending email to:", to);
+    console.log("From:", from);
+    console.log("Subject:", subject);
+    console.log("Text:", text);
+
     await transporter.sendMail({
-      from: `"${from.name}" <${from.email}>`, 
-      to,
+      from: `"${from.name}" <${from.email}>`,  // The sender's email
+      to,  // The recipient's email
       subject,
       text
     });
     return true;
   } catch (error) {
-    console.error('Email sending error:', error);  // Log more details
-    console.error('Error stack:', error.stack);   // Log the full stack trace for debugging
+    console.error('Email sending error:', error);
+    console.error('Error stack:', error.stack);
     return false;
   }
 };
+
 
 
 
