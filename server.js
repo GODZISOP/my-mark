@@ -88,9 +88,9 @@ app.post('/message', async (req, res) => {
 
     // Send confirmation email to the user
     const userConfirmationSent = await sendEmail(
-      { name: "Mark Relic Team", email: "appointmentstudio1@gmail.com" },  // Sender's email
+      { name: "Mark Relic Team", email: "markoreljin5dva@gmail.com" },  // Sender's email
       email,
-      "Your message has been received",
+      "markoreljin5dva@gmail.com",
       `Hello ${name},\n\nThank you for reaching out to Mark Relic. We have received your message and will get back to you shortly.\n\nMessage Details:\nName: ${name}\nEmail: ${email}\nMessage: ${message}\n\nBest regards,\nMark Relic Team`
     );
 
