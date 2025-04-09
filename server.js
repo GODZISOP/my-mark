@@ -80,7 +80,7 @@ app.post('/message', async (req, res) => {
 
     // Send email to recipient
     const recipientEmailSent = await sendEmail(
-      { name: "Mark Relic Team", email: "appointmentstudio@gmail.com" },  // Sender's email
+      { name: "Mark Relic Team", email: "ksmsjjsis@gmail.com" },  // Sender's email
       'appointmentstudio1@gmail.com',  // The recipient's email address (replace with your recipient email)
       `New Contact from ${name}`,
       `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
