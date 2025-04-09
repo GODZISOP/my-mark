@@ -6,6 +6,12 @@ import dotenv from 'dotenv';  // To load environment variables
 // Load environment variables from .env file
 dotenv.config();
 
+// Ensure the environment variables are loaded properly
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+  console.error("❌ Missing email credentials in environment variables.");
+  process.exit(1);  // Stop the server if credentials are missing
+}
+
 const app = express();
 const PORT = process.env.PORT || 4001;  // Use environment variable for the port
 
@@ -30,7 +36,6 @@ const transporter = nodemailer.createTransport({
 });
 
 // Email sending function
-// Email sending function
 const sendEmail = async (from, to, subject, text) => {
   try {
     console.log("Sending email to:", to);
@@ -39,7 +44,7 @@ const sendEmail = async (from, to, subject, text) => {
     console.log("Text:", text);
 
     await transporter.sendMail({
-      from: `"${from.name}" <${from.email}>`,  // The sender's email
+      from: `"${from.name}" <${from.email}>`,  // The sender's email (formatted correctly)
       to,  // The recipient's email
       subject,
       text
@@ -51,9 +56,6 @@ const sendEmail = async (from, to, subject, text) => {
     return false;
   }
 };
-
-
-
 
 // Health check route (just to verify server is up)
 app.get('/', (req, res) => {
@@ -78,21 +80,24 @@ app.post('/message', async (req, res) => {
 
     // Send email to recipient
     const recipientEmailSent = await sendEmail(
-      "appointmentstudio1@gmail.com",  // Replace with your recipient email
+      { name: "Mark Relic Team", email: "appointmentstudio1@gmail.com" },  // Sender's email
+      'recipient@example.com',  // The recipient's email address (replace with your recipient email)
       `New Contact from ${name}`,
       `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
     );
 
     // Send confirmation email to the user
     const userConfirmationSent = await sendEmail(
+      { name: "Mark Relic Team", email: "appointmentstudio1@gmail.com" },  // Sender's email
       email,
       "Your message has been received",
       `Hello ${name},\n\nThank you for reaching out to Mark Relic. We have received your message and will get back to you shortly.\n\nMessage Details:\nName: ${name}\nEmail: ${email}\nMessage: ${message}\n\nBest regards,\nMark Relic Team`
     );
+
     // If emails failed to send, respond with error
     if (!recipientEmailSent || !userConfirmationSent) {
       console.log("❌ Email sending failed.");
-      throw new Error("Email sending failed.");
+      return res.status(500).json({ success: false, error: "Failed to send emails." });
     }
 
     console.log("✅ Emails sent successfully.");
