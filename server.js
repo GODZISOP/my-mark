@@ -33,19 +33,20 @@ const transporter = nodemailer.createTransport({
 // Email sending function
 const sendEmail = async (from, to, subject, text) => {
   try {
-    // Sending the email with proper "from" format
     await transporter.sendMail({
-      from: `"${from.name}" <${from.email}>`,  // Display the user's name and their email
+      from: `"${from.name}" <${from.email}>`, 
       to,
       subject,
       text
     });
     return true;
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error('Email sending error:', error);  // Log more details
+    console.error('Error stack:', error.stack);   // Log the full stack trace for debugging
     return false;
   }
 };
+
 
 
 // Health check route (just to verify server is up)
