@@ -71,7 +71,7 @@ app.post('/message', async (req, res) => {
 
     // Send email to recipient
     const recipientEmailSent = await sendEmail(
-      "ksmsjjsis@gmail.com",  // Replace with your recipient email
+      "appointmentstudio@gmail.com",  // Replace with your recipient email
       `New Contact from ${name}`,
       `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
     );
